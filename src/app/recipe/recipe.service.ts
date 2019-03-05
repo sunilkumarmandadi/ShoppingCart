@@ -1,31 +1,52 @@
-
 import { EventEmitter } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingrediant } from '../shared/ingrediants.model';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { Http, Response } from '@angular/http';
+import { Injectable } from '@angular/core';
+import {map} from 'rxjs/operators';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class RecipeService {
+  private recipe: Recipe;
+  recipeSelected = new Subject<any>();
+  recipeAdded = new Subject();
+  revipeSave = new Subject();
 
-   recipeSelected = new EventEmitter<Recipe>();
 
-  private recepies: Recipe[] = [
-    new Recipe('Shrimp', 'delicious Shrimp curry',
-    'https://c1.staticflickr.com/6/5737/30622968353_35e06fcb52_b.jpg',
-    [new Ingrediant('shrimp', 12), new Ingrediant('salad', 1)] ),
-    new Recipe('Cake', 'delicious Cake',
-    'https://i.vimeocdn.com/filter/overlay?src0=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%' +
-    '2F579859199_1280x960.jpg&src1=https%3A%2F%2Ff.vimeocdn.com%2Fimages_v6%2Fshare%2Fplay_icon_overlay.png',
-    [new Ingrediant('all purpose floor', 1), new Ingrediant('sugar', 12)]  ),
-    new Recipe('Avacado', 'delicious Avacado Recipe',
-    'http://res.publicdomainfiles.com/pdf_view/2/13494127215552.jpg',
-    [new Ingrediant('avacado', 3), new Ingrediant('onion', 1)] )
+  constructor(private http: Http) {}
 
-  ];
+  private recepies: Recipe[];
 
-  getRecipes() {
-    return this.recepies.slice(); // slice returns the copy of the list. Not the original list.
+  fetchIngrediantsById(id: number) {
+    // this.getRecipes.subscribe(
+    //   response => {this.recepies = response ; }
+    // );
+    return this.recepies.slice()[id];
   }
-  callEventEmitter(recipe: Recipe) {
-this.recipeSelected.emit(recipe);
-
+  SaveRecipe(recipe: Recipe) {
+    return this.http.post(
+      'http://localhost:3000/recipes',
+      recipe
+    );
   }
+  getRecipesFromDB() {
+  // return this.http.get('https://sunil-ng-project.firebaseio.com/recipes.json')
+  return this.http.get('http://localhost:3000/recipes')
+  .pipe(map(( x: Response) => x.json() ))
+  .subscribe(
+    (response: Recipe[]) => {
+      this.setRecipes(response);
+    }
+  );
+  }
+setRecipes(recipes: Recipe[]) {
+  this.recepies = recipes;
+  this.recipeAdded.next(this.recepies);
+}
+
+
+
 }

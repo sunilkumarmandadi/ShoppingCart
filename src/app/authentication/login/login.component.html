@@ -1,0 +1,35 @@
+<form [formGroup]="formGroup">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+        User Name:
+        <input
+          type="text"
+          class="form-control"
+          formControlName="uName"
+          id="uName"
+          name="uName"
+        />
+        <span *ngIf="formGroup.get('uName').invalid && formGroup.get('uName').touched">
+<span style="color:red" *ngIf="formGroup.get('uName').hasError('required')">User Name is required.</span>
+</span>
+      </div>
+      <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+        Password:
+        <input
+          type="password"
+          class="form-control"
+          formControlName="uPsw"
+          id="uPsw"
+          name="uPsw"
+        />
+        <span *ngIf="formGroup.get('uPsw').invalid && formGroup.get('uPsw').touched">
+        <span style="color:red" *ngIf="formGroup.get('uPsw').hasError('required')">Password is required.</span>
+      </span>
+      </div>
+      <div class="col-md-offset-2 col-md-10"><br>
+        <button class="btn btn-success" [disabled]="formGroup.invalid" id="btnSubmit" (click)="onSubmit()">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>

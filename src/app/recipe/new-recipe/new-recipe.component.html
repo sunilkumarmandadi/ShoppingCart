@@ -1,0 +1,66 @@
+<form [formGroup]="formGroup">
+  <div class="container-fluid">
+    <div class="form-group">
+      <button id="submit" class="btn btn-primary" (click)="saveUpdateRecipe()">
+        Save
+      </button>
+      &nbsp; <button id="submit" class="btn btn-danger">Cancel</button>
+    </div>
+    <div class="form-group">
+      <label for="rName">Name:</label>
+      <input
+        type="text"
+        name="rName"
+        formControlName="rName"
+        class="form-control"
+      />
+      <span *ngIf="formGroup.get('rName').invalid && formGroup.get('rName').touched">
+      <span style="color: red" *ngIf="formGroup.get('rName').hasError('required')">Name is required!</span>
+    </span>
+    </div>
+    <div class="form-group">
+      <label for="rImgUrl">Image Url:</label>
+      <input
+        type="text"
+        name="rImgUrl"
+        formControlName="rImgUrl"
+        class="form-control"
+      />
+    </div>
+    <div class="form-group">
+      <label for="rDesc">Description:</label>
+      <textarea
+        rows="3"
+        name="rDesc"
+        formControlName="rDesc"
+        class="form-control"
+      ></textarea>
+    </div>
+    <button type="button" class="btn btn-success" (click)="AddIngrediant()">Add Ingrediant</button>
+<div formGroupName="rIngrediants">
+<div class="row" style="margin-top:5px;" *ngFor="let ctrl of getFormGroupControls(); let i = index" [formGroupName]="i">
+<div class="col-md-7">
+  <input type="text" formControlName="name" class="form-control" />
+</div>
+<div class="col-md-4">
+  <input type="text" formControlName="amount" class="form-control" />
+</div>
+<div class="col-md-1">
+  <button class="btn btn-danger">x</button>
+</div>
+</div>
+<hr/>
+
+</div>
+    <div class="row" [hidden]="editMode">
+      <div class="col-md-7">
+        <input type="text" name="ingName" class="form-control" />
+
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="ingDesc" class="form-control" />
+      </div>
+      <div class="col-md-2"><button class="btn btn-danger">x</button></div>
+    </div>
+  </div>
+</form>

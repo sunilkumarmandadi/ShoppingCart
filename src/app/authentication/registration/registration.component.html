@@ -1,0 +1,28 @@
+<form #form= "ngForm">
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+      Email: <input type="text" id="email" name="email" class="form-control"
+     [(ngModel)]="user.email" #email="ngModel"/>
+      <span></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8 col-md-offset-2">
+      Password:
+      <input type="text" id="password" name="password" class="form-control"
+[(ngModel)]="user.password" #password="ngModel"
+      />
+    </div>
+  </div>
+  <div class="row"><br>
+    <div class="col-md-offset-2 col-md-10">
+     <button id="btnSubmit" (click) ="OnRegistration()" class="btn btn-default">Submit</button>
+     &nbsp;&nbsp;<button id="reset" (click)="onReset()" class="btn btn-danger">ReSet</button>
+   <br>
+   <b style="color:green;"> {{response}}</b>
+    </div>
+  </div>
+
+</div>
+</form>
